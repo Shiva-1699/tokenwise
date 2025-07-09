@@ -1,0 +1,15 @@
+{
+  "name": "tokenwise-dashboard",
+  "version": "1.0.0",
+  "description": "TokenWise Dashboard",
+  "main": "backend.js",
+  "scripts": {
+    "start": "node backend.js",
+    "dev": "node backend.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.7",
+    "cors": "^2.8.5"
+  }
+}

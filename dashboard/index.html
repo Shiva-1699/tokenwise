@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TokenWise Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .stats { display: flex; gap: 20px; margin: 20px 0; }
+        .stat-card { background: #f5f5f5; padding: 20px; border-radius: 8px; flex: 1; }
+        .chart-container { width: 45%; display: inline-block; margin: 10px; }
+        .transactions { margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 TokenWise Dashboard</h1>
+        <p>Real-time monitoring of top 60 token holders</p>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <h3>Total Transactions</h3>
+                <div id="totalTx">Loading...</div>
+            </div>
+            <div class="stat-card">
+                <h3>Buy/Sell Ratio</h3>
+                <div id="buySellRatio">Loading...</div>
+            </div>
+            <div class="stat-card">
+                <h3>Most Active Wallet</h3>
+                <div id="activeWallet">Loading...</div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="buySellChart"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="volumeChart"></canvas>
+        </div>
+
+        <div class="holders-section">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3>Top 60 Token Holders</h3>
+                <div>
+                    <button onclick="dashboard.exportData('csv')" style="margin-right: 10px; padding: 8px 16px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">Export CSV</button>
+                    <button onclick="dashboard.exportData('json')" style="padding: 8px 16px; background: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer;">Export JSON</button>
+                </div>
+            </div>
+            <table id="holdersTable">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Wallet Address</th>
+                        <th>Owner</th>
+                        <th>Balance</th>
+                        <th>% of Supply</th>
+                    </tr>
+                </thead>
+                <tbody id="holdersBody">
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="transactions" style="margin-top: 30px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3>Recent Transactions</h3>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="searchInput" placeholder="Search wallet address..." 
+                           style="padding: 8px; border: 1px solid #ddd; border-radius: 4px; width: 200px;"
+                           onkeypress="if(event.key==='Enter') dashboard.searchTransactions()">
+                    <select id="protocolFilter" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                        <option value="">All Protocols</option>
+                        <option value="Jupiter">Jupiter</option>
+                        <option value="Raydium">Raydium</option>
+                        <option value="Orca">Orca</option>
+                        <option value="Serum">Serum</option>
+                        <option value="Meteora">Meteora</option>
+                        <option value="Phantom Wallet">Phantom Wallet</option>
+                    </select>
+                    <button onclick="dashboard.searchTransactions()" 
+                            style="padding: 8px 16px; background: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        Search
+                    </button>
+                    <button onclick="dashboard.clearSearch()" 
+                            style="padding: 8px 16px; background: #757575; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        Clear
+                    </button>
+                </div>
+            </div>
+            <table id="transactionTable">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Wallet</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Protocol</th>
+                    </tr>
+                </thead>
+                <tbody id="transactionBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
